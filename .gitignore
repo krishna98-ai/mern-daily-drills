@@ -1,7 +1,11 @@
-client/node_modules
-server/node_modules
+# Block node_modules from ANY folder (Day01, Day02, client, server, etc.)
+**/node_modules/
 
-.env
+# Block environment variables (secrets)
+**/.env
 
-client/dist
-server/dist
+# Block production builds (dist folder from Vite)
+**/dist/
+
+# System files
+.DS_Store
