@@ -18,6 +18,11 @@ const expenseSchema = new Schema(
       type: String,
       enum: ["Food", "Travel", "Shopping", "Other"],
       required: true
+    },
+    owner:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true  
     }
   },
   {

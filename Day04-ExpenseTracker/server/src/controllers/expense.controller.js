@@ -22,6 +22,7 @@ export const createExpense = AsyncHandler(async (req, res) => {
   }
 
   const expense = await Expense.create({
+    owner: req.user._id,
     title,
     amount,
     category,
@@ -50,7 +51,10 @@ export const getAllExpenses = AsyncHandler(async (req, res) => {
     query.category = category;
   }
 
-  const expenses = await Expense.find(query)
+  const expenses = await Expense.find({
+    owner: req.user._id,
+    ...query,
+  })
     .sort({ createdAt: -1 });
 
   return res.status(200).json({
@@ -66,7 +70,10 @@ export const getAllExpenses = AsyncHandler(async (req, res) => {
 export const deleteExpense = AsyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const deletedExpense = await Expense.findByIdAndDelete(id);
+  const deletedExpense = await Expense.findOneAndDelete({
+    _id: id,
+    owner: req.user._id
+  });
 
   if (!deletedExpense) {
     throw new ApiError(404, "Expense not found");
@@ -114,8 +121,8 @@ export const updateExpense = AsyncHandler(async (req, res) => {
     );
   }
 
-  const updatedExpense = await Expense.findByIdAndUpdate(
-    id,
+  const updatedExpense = await Expense.findOneAndUpdate(
+    { _id: id, owner: req.user._id },
     updateFields,
     {
       new: true,
