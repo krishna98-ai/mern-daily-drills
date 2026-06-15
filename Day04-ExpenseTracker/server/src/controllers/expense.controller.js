@@ -140,3 +140,23 @@ export const updateExpense = AsyncHandler(async (req, res) => {
     message: "Expense updated successfully",
   });
 });
+export const getExpenseById = AsyncHandler(
+  async (req, res) => {
+    const expense = await Expense.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
+
+    if (!expense) {
+      throw new ApiError(
+        404,
+        "Expense not found"
+      );
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: expense,
+    });
+  }
+);
