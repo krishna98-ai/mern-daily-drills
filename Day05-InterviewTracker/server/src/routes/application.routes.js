@@ -7,6 +7,7 @@ import {
   getApplicationById,
   updateApplication,
   deleteApplication,
+  getApplicationStats
 } from "../controllers/application.controller.js";
 
 const router = Router();
