@@ -1,13 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 function ProtectedRoute() {
-  const isLoggedIn = true; // later context/redux
+const { isLoggedIn, loading } = useAuth();
 
-  if (!isLoggedIn) {
-    return <Navigate to="/" replace />;
-  }
+if (loading) {
+  return <h1>Loading...</h1>;
+}
 
-  return <Outlet />;
+if (!isLoggedIn) {
+  return <Navigate to="/" />;
+}
+
+return <Outlet />;
 }
 
 export default ProtectedRoute;
