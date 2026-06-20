@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard";
 import Applications from "../pages/Applications";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import CreateApplication from "../pages/CreateApplication";
 
 import ProtectedRoute from "./ProtectedRoute";
 export const router = createBrowserRouter([
@@ -41,6 +42,9 @@ export const router = createBrowserRouter([
           {
             path: "/applications",
             element: <Applications />,
+          },
+          {path:"applications/new",
+            element:<CreateApplication/>
           },
           {
             path: "/profile",
