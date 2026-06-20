@@ -24,16 +24,33 @@ return (
     {applications.length === 0 ? (
       <h2>No element</h2>
     ) : (
-      applications.map((application) => (
-        <div key={application._id}>
-          <h3>{application.company}</h3>
-          <p>{application.position}</p>
-          <p>{application.status}</p>
+     <table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Location</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
+  <tbody>
+    {applications.map((application) => (
+      <tr key={application._id}>
+        <td>{application.companyName}</td>
+        <td>{application.jobRole}</td>
+        <td>{application.status}</td>
+        <td>{application.location}</td>
+
+        <td>
           <button>Edit</button>
           <button>Delete</button>
-        </div>
-      ))
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
     )}
   </>
 );

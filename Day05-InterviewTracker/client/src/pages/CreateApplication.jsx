@@ -5,21 +5,25 @@ import { createApplication } from "../services/applicationService";
 const CreateApplication = () => {
   const navigate = useNavigate();
 
-  const [company, setCompany] = useState("");
-  const [position, setPosition] = useState("");
-  const [status, setStatus] = useState("Applied");
-  const [notes, setNotes] = useState("");
+  const [companyName, setCompanyName] = useState("");
+const [jobRole, setJobRole] = useState("");
+const [jobLink, setJobLink] = useState("");
+const [location, setLocation] = useState("");
+const [salary, setSalary] = useState("");
+const [notes, setNotes] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await createApplication({
-        company,
-        position,
-        status,
-        notes,
-      });
+   await createApplication({
+  companyName,
+  jobRole,
+  jobLink,
+  location,
+  salary,
+  notes,
+});
 
       navigate("/applications");
     } catch (error) {
@@ -32,42 +36,49 @@ const CreateApplication = () => {
     <div>
       <h1>Create Application</h1>
 
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Company Name"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        />
+    <form onSubmit={onSubmit}>
+      <input
+  type="text"
+  placeholder="Company Name"
+  value={companyName}
+  onChange={(e) => setCompanyName(e.target.value)}
+/>
 
-        <input
-          type="text"
-          placeholder="Position"
-          value={position}
-          onChange={(e) => setPosition(e.target.value)}
-        />
+<input
+  type="text"
+  placeholder="Job Role"
+  value={jobRole}
+  onChange={(e) => setJobRole(e.target.value)}
+/>
 
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="Applied">Applied</option>
-          <option value="OA">OA</option>
-          <option value="Interview">Interview</option>
-          <option value="Rejected">Rejected</option>
-          <option value="Selected">Selected</option>
-        </select>
+<input
+  type="text"
+  placeholder="Job Link"
+  value={jobLink}
+  onChange={(e) => setJobLink(e.target.value)}
+/>
 
-        <textarea
-          placeholder="Notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
+<input
+  type="text"
+  placeholder="Location"
+  value={location}
+  onChange={(e) => setLocation(e.target.value)}
+/>
 
-        <button type="submit">
-          Create Application
-        </button>
-      </form>
+<input
+  type="number"
+  placeholder="Salary"
+  value={salary}
+  onChange={(e) => setSalary(e.target.value)}
+/>
+
+<textarea
+  placeholder="Notes"
+  value={notes}
+  onChange={(e) => setNotes(e.target.value)}
+/>
+<button type="submit">create application</button>
+    </form>
     </div>
   );
 };
