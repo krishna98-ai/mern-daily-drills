@@ -7,6 +7,7 @@ export const createApplication = AsyncHandler(async (req, res) => {
   const {
     companyName,
     jobRole,
+    status,
     jobLink,
     location,
     salary,
@@ -26,9 +27,10 @@ export const createApplication = AsyncHandler(async (req, res) => {
     owner,
     companyName: companyName.trim(),
     jobRole: jobRole.trim(),
+    status: status || "Applied",
     jobLink: jobLink || "",
     location: location || "",
-    salary,
+    salary: salary || undefined,
     notes: notes || "",
   });
 

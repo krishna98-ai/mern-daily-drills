@@ -10,7 +10,8 @@ import Applications from "../pages/Applications";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import CreateApplication from "../pages/CreateApplication";
-
+import ApplicationDetail from "../pages/ApplicationDetail";
+import  ChangePassword  from "../pages/ChangePassword";
 import ProtectedRoute from "./ProtectedRoute";
 export const router = createBrowserRouter([
   // Public Routes
@@ -43,13 +44,25 @@ export const router = createBrowserRouter([
             path: "/applications",
             element: <Applications />,
           },
-          {path:"applications/new",
+          {path:"/applications/new",
             element:<CreateApplication/>
           },
+          {
+            path:"/applications/:id/edit",
+            element:<CreateApplication/>
+          },
+        {
+         path:"/applications/:id",
+         element:<ApplicationDetail/>
+         },
           {
             path: "/profile",
             element: <Profile />,
           },
+          {
+  path:"/change-password",
+  element:<ChangePassword/>
+}
         ],
       },
     ],

@@ -1,59 +1,78 @@
-import { useState,useEffect } from "react";
-import {getAllApplications } from "../services/applicationService";
+import { useState, useEffect } from "react";
+import {
+  getAllApplications,
+  deleteApplication,
+} from "../services/applicationService";
 
+import ApplicationsTable from "../components/ApplicationsTable";
+import SearchFilterBar from "../components/SearchFilterBar";
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
- const fetchApplications = async () => {
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
+
+  const fetchApplications = async () => {
     try {
-      const response = await getAllApplications();
-      setApplications(response.data.data);
+      const response = await getAllApplications({
+        search,
+        status,
+      });
+
+      setApplications(response.data.data || []);
+    } catch (error) {
+      console.log(error);
+      setApplications([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchApplications();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
+    if (status !== "") {
+      fetchApplications();
+    }
+  }, [status]);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteApplication(id);
+
+      setApplications((prev) =>
+        prev.filter((app) => app._id !== id)
+      );
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(()=>{
-    fetchApplications()
-  },[]);
-  
 
-return (
-  <>
-    <h1>Application renders</h1>
+  return (
+    <div className="min-h-screen bg-gray-950 text-white p-6 space-y-4">
 
-    {applications.length === 0 ? (
-      <h2>No element</h2>
-    ) : (
-     <table>
-  <thead>
-    <tr>
-      <th>Company</th>
-      <th>Role</th>
-      <th>Status</th>
-      <th>Location</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+      <SearchFilterBar
+        search={search}
+        setSearch={setSearch}
+        status={status}
+        setStatus={setStatus}
+      />
 
-  <tbody>
-    {applications.map((application) => (
-      <tr key={application._id}>
-        <td>{application.companyName}</td>
-        <td>{application.jobRole}</td>
-        <td>{application.status}</td>
-        <td>{application.location}</td>
+      <ApplicationsTable
+        applications={applications}
+        handleDelete={handleDelete}
+      />
 
-        <td>
-          <button>Edit</button>
-          <button>Delete</button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-    )}
-  </>
-);
-}
+    </div>
+  );
+};
 
-export default Applications
+export default Applications;

@@ -18,14 +18,14 @@ router
   .route("/")
   .post(createApplication)
   .get(getAllApplications);
-
+  
+  router
+    .route("/stats")
+    .get(getApplicationStats);
 router
   .route("/:id")
   .get(getApplicationById)
   .put(updateApplication)
   .delete(deleteApplication);
-router
-  .route("/stats")
-  .get(getApplicationStats);
   
 export default router;
