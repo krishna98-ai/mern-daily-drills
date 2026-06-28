@@ -8,27 +8,35 @@ const AuthProvider = ({children}) => {
   const [user,setUser] = useState(null);
   const [isLoggedIn,setIsLoggedIn] = useState(false);
   const [loading,setLoading] = useState(true);
+console.log("Authentication render ")
 
 
+console.log({
+  user,
+  isLoggedIn,
+  loading
+});
   const checkAuth = async()=>{
 
     try{
+ console.log("checkAuth started");
 
       const response = await getCurrentUser();
-      // console.log("sbse phle mai hi chla hun cookie dhund rha hun ")
-      console.log(response.data.data)
+       console.log("current user success");
+        console.log(response.data.data);
+
       setUser(response.data.data);
+      
+        setIsLoggedIn(true);
     
-      setIsLoggedIn(true);
-
-
-    }catch(error){
-
+      }catch(error){
+console.log("current user failed KUCH galt hua " , error);
       setUser(null);
       setIsLoggedIn(false);
 
 
     }finally{
+ console.log("loading false");
 
       setLoading(false);
 

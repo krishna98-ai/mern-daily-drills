@@ -126,6 +126,7 @@ export const logout = AsyncHandler(async (req, res) => {
 });
 
 export const getCurrentUser = AsyncHandler(async (req, res) => {
+    console.log("request came from user ")
     const user = await User.findById(req.user._id).select(
         "-password -refreshToken"
     );

@@ -13,22 +13,28 @@ import CreateApplication from "../pages/CreateApplication";
 import ApplicationDetail from "../pages/ApplicationDetail";
 import  ChangePassword  from "../pages/ChangePassword";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 export const router = createBrowserRouter([
-  // Public Routes
-  {
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "/",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
-    ],
-  },
 
+//public routes
+  {
+  element: <PublicRoute />,
+  children: [
+    {
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "/",
+          element: <Login />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
+    },
+  ],
+},
   // Protected Routes
   {
     element: <ProtectedRoute />,
@@ -51,23 +57,24 @@ export const router = createBrowserRouter([
             path:"/applications/:id/edit",
             element:<CreateApplication/>
           },
-        {
-         path:"/applications/:id",
-         element:<ApplicationDetail/>
-         },
+          {
+            path:"/applications/:id",
+            element:<ApplicationDetail/>
+          },
           {
             path: "/profile",
             element: <Profile />,
           },
           {
-  path:"/change-password",
-  element:<ChangePassword/>
-}
+            path:"/change-password",
+            element:<ChangePassword/>
+          }
         ],
       },
     ],
   },
   //404
+  
   {
   path: "*",
   element: <NotFound />,

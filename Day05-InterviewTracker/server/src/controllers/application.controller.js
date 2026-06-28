@@ -51,11 +51,11 @@ export const createApplication = AsyncHandler(async (req, res) => {
 });
 
 export const getAllApplications = AsyncHandler(async (req, res) => {
-  const { search, status } = req.query;
+  const { search, status ,page=1,limit=10 } = req.query;
 
   const query = {
     owner: req.user._id,
-  };
+  };  
 
   if (search?.trim()) {
     query.$or = [
@@ -77,14 +77,26 @@ export const getAllApplications = AsyncHandler(async (req, res) => {
   if (status?.trim()) {
     query.status = status;
   }
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+
+  const skip = (pageNumber - 1) * limitNumber;
+  const totalApplications =
+await Application.countDocuments(query);
 
   const applications = await Application.find(query)
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 }).skip(skip)
+    .limit(limitNumber);
 
   return res.status(200).json(
     new ApiResponse(
       200,
-      applications,
+      {
+       applications,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalApplications / limitNumber),
+        totalApplications,
+      },
       applications.length
         ? "Applications fetched successfully"
         : "No applications found"
